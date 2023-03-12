@@ -4,8 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.exception.ItemNotAvailableException;
+import ru.practicum.shareit.item.exception.ItemNotDescriptionException;
+import ru.practicum.shareit.item.exception.ItemNotNameException;
 import ru.practicum.shareit.item.service.ItemService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,6 +22,17 @@ public class ItemController {
     @PostMapping
     public ItemDto create(@RequestHeader("X-Sharer-User-Id") Long ownerId, @RequestBody ItemDto itemDto) {
         log.info("Получен запрос к эндпоинту:{} /items", "POST");
+
+        if (itemDto.getName() == null || itemDto.getName().isBlank()) {
+            throw new ItemNotNameException("Отсутствует название вещи");
+        }
+        if (itemDto.getDescription() == null || itemDto.getDescription().isBlank()) {
+            throw new ItemNotDescriptionException("Отсутствует описание вещи");
+        }
+        if (itemDto.getAvailable() == null) {
+            throw new ItemNotAvailableException("Отсутствует статус доступности вещи");
+        }
+
         itemDto.setId(ownerId);
         return itemService.create(ownerId, itemDto);
     }
@@ -45,6 +60,10 @@ public class ItemController {
     @GetMapping(value = "/search")
     public List<ItemDto> getItemsBySearch(@RequestParam String text) {
         log.info("Получен запрос к эндпоинту:{} /items/search?text={}", "GET", text);
+        if (text.isEmpty()) {
+            log.info("Передан пустой запрос");
+            return new ArrayList<>();
+        }
         return itemService.getItemsBySearch(text);
     }
 }

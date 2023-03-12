@@ -2,13 +2,9 @@ package ru.practicum.shareit.item.dao;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.item.exception.ItemNotAvailableException;
-import ru.practicum.shareit.item.exception.ItemNotDescriptionException;
 import ru.practicum.shareit.item.exception.ItemNotFoundException;
-import ru.practicum.shareit.item.exception.ItemNotNameException;
 import ru.practicum.shareit.item.model.Item;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +18,6 @@ public class ItemDaoImpl implements ItemDao {
 
     @Override
     public Item create(Item item) {
-        if (item.getName() == null || item.getName().isBlank()) {
-            throw new ItemNotNameException("Отсутствует название вещи");
-        }
-        if (item.getDescription() == null || item.getDescription().isBlank()) {
-            throw new ItemNotDescriptionException("Отсутствует описание вещи");
-        }
-        if (item.getAvailable() == null) {
-            throw new ItemNotAvailableException("Отсутствует статус доступности вещи");
-        }
         id++;
         item.setId(id);
         items.put(item.getId(), item);
@@ -76,15 +63,10 @@ public class ItemDaoImpl implements ItemDao {
     @Override
     public List<Item> getItemsBySearch(String text) {
         log.info("Запрошен поиск вещи по тексту:{}", text);
-        if (text.isEmpty()) {
-            log.info("Передан пустой запрос");
-            return new ArrayList<>();
-        } else {
-            return items.values().stream()
-                    .filter(item -> (item.getName().toLowerCase().contains(text)
-                            || item.getDescription().toLowerCase().contains(text))
-                    && item.getAvailable())
-                    .collect(Collectors.toList());
-        }
+        return items.values().stream()
+                .filter(item -> (item.getName().toLowerCase().contains(text)
+                || item.getDescription().toLowerCase().contains(text))
+                && item.getAvailable())
+                .collect(Collectors.toList());
     }
 }

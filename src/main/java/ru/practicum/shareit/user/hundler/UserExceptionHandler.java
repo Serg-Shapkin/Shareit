@@ -21,7 +21,7 @@ public class UserExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT) // 409
-    public UserErrorResponse handleUserInvalidEmailException (final UserDuplicateEmailException e) {
+    public UserErrorResponse handleUserInvalidEmailException(final UserDuplicateEmailException e) {
         log.warn(e.getMessage());
         return new UserErrorResponse("Ошибка в адресе электронной почты", e.getMessage());
     }

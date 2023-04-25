@@ -19,7 +19,7 @@ public class CommentDto {
     @NotBlank(message = "Текст комментария отсутствует или передана пустая строка")
     private String text;
 
-    private Long ItemId;
+    private Long itemId;
 
     private String authorName;
 

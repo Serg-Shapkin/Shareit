@@ -11,6 +11,8 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByOwnerId(Long ownerId);
 
+    List<Item> findByRequestId(Long requestId);
+
     @Query(" select i from Item i " +
             "where lower(i.name) like lower(concat('%', :search, '%')) " +
             " or lower(i.description) like lower(concat('%', :search, '%')) " +

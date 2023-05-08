@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.exception.ItemNotAvailableException;
-import ru.practicum.shareit.item.exception.ItemNotDescriptionException;
-import ru.practicum.shareit.item.exception.ItemNotNameException;
+import ru.practicum.shareit.exception.ItemNotAvailableException;
+import ru.practicum.shareit.exception.ItemNotDescriptionException;
+import ru.practicum.shareit.exception.ItemNotNameException;
 import ru.practicum.shareit.item.service.ItemService;
 
 import javax.validation.Valid;
@@ -25,7 +25,6 @@ public class ItemController {
     @PostMapping
     public ItemDto create(@RequestHeader(HEADER) Long ownerId,
                           @RequestBody ItemDto itemDto) {
-        log.info("Получен запрос к эндпоинту:{} /items", "POST");
 
         if (itemDto.getName() == null || itemDto.getName().isBlank()) {
             throw new ItemNotNameException("Отсутствует название вещи");
@@ -37,7 +36,7 @@ public class ItemController {
             throw new ItemNotAvailableException("Отсутствует статус доступности вещи");
         }
 
-        itemDto.setId(ownerId);
+        log.info("Получен запрос к эндпоинту:{} /items", "POST");
         return itemService.create(ownerId, itemDto);
     }
 

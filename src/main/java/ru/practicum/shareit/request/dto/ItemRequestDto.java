@@ -1,16 +1,20 @@
-package ru.practicum.shareit.request;
+package ru.practicum.shareit.request.dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.user.User;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class ItemRequestDto {
     private Long id;
 
@@ -18,9 +22,9 @@ public class ItemRequestDto {
     @Size(max = 200)
     private String description;
 
-    @NotNull(message = "Отсутствует пользователь создавший запрос")
     private User requestor;
 
-    @NotNull(message = "Отсутствует дата и время создания запроса")
     private LocalDateTime created;
+
+    private List<ItemDto> items;
 }

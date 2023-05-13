@@ -162,7 +162,7 @@ public class ItemServiceTest {
 
     @Test
     @DisplayName("Exception when delete item not exist")
-    void shouldExceptionWhenDeleteItemNotExist() {
+    void testExceptionWhenDeleteItemNotExist() {
         UserDto ownerDto = userService.create(userDto1);
         assertThrows(ItemNotFoundException.class,
                 () -> itemService.getById(-2L, ownerDto.getId()));
@@ -181,8 +181,8 @@ public class ItemServiceTest {
     }
 
     @Test
-    @DisplayName("Return items by search")
-    void shouldReturnItemsBySearch() {
+    @DisplayName("Get items by search")
+    void testGetItemsBySearch() {
         UserDto ownerDto = userService.create(userDto1);
         itemService.create(ownerDto.getId(), itemDto);
         itemService.create(ownerDto.getId(), itemDto1);

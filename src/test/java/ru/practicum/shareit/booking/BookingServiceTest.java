@@ -144,7 +144,7 @@ public class BookingServiceTest {
         BookingDto booking9 = createAndApproveBooking(itemDto.getId(), now.plusHours(17), now.plusHours(18),
                 bookerUser.getId(), ownerUser.getId(), true);
 
-        BookingDto booking10 = createAndApproveBooking(itemDto.getId(), now.plusHours(1), now.plusHours(20),
+        BookingDto booking10 = createAndApproveBooking(itemDto.getId(), now.plusMinutes(30), now.plusHours(20),
                 bookerUser.getId(), ownerUser.getId(), true);
 
         List<BookingDto> bookingDtoList = bookingService.getBookings(State.ALL.name(), bookerUser.getId(), 0, 10);
@@ -156,6 +156,11 @@ public class BookingServiceTest {
         bookingDtoList = bookingService.getBookings(State.ALL.name(), bookerUser.getId(), 0, 7);
         assertEquals(7, bookingDtoList.size());
         assertEquals(List.of(booking9.getId(), booking8.getId(), booking7.getId(), booking6.getId(), booking5.getId(), booking4.getId(), booking3.getId()),
+                bookingDtoList.stream().map(BookingDto::getId).collect(Collectors.toList()));
+
+        bookingDtoList = bookingService.getBookings(State.ALL.name(), bookerUser.getId(), 7, 7);
+        assertEquals(3, bookingDtoList.size());
+        assertEquals(List.of(booking2.getId(), booking1.getId(), booking10.getId()),
                 bookingDtoList.stream().map(BookingDto::getId).collect(Collectors.toList()));
 
         bookingDtoList = bookingService.getBookings(State.WAITING.name(), bookerUser.getId(), 0, 10);

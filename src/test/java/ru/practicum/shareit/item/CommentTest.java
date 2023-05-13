@@ -67,7 +67,7 @@ public class CommentTest {
         assertEquals("newText", comment.getText());
         assertEquals(item, comment.getItem());
         assertEquals(author, comment.getAuthor());
-        assertEquals("2025-01-01T12:00" ,comment.getCreated().toString());
+        assertEquals("2025-01-01T12:00", comment.getCreated().toString());
     }
 
     @Test

@@ -153,12 +153,12 @@ public class BookingServiceTest {
                 booking3.getId(), booking2.getId(), booking1.getId(), booking10.getId()), bookingDtoList.stream()
                 .map(BookingDto::getId).collect(Collectors.toList()));
 
-        bookingDtoList = bookingService.getBookings( State.ALL.name(), bookerUser.getId(), 0, 7);
+        bookingDtoList = bookingService.getBookings(State.ALL.name(), bookerUser.getId(), 0, 7);
         assertEquals(7, bookingDtoList.size());
         assertEquals(List.of(booking9.getId(), booking8.getId(), booking7.getId(), booking6.getId(), booking5.getId(), booking4.getId(), booking3.getId()),
                 bookingDtoList.stream().map(BookingDto::getId).collect(Collectors.toList()));
 
-        bookingDtoList = bookingService.getBookings( State.ALL.name(), bookerUser.getId(), 7, 7);
+        bookingDtoList = bookingService.getBookings(State.ALL.name(), bookerUser.getId(), 7, 7);
         assertEquals(3, bookingDtoList.size());
         assertEquals(List.of(booking2.getId(), booking1.getId(), booking10.getId()),
                 bookingDtoList.stream().map(BookingDto::getId).collect(Collectors.toList()));
@@ -223,12 +223,12 @@ public class BookingServiceTest {
                 booking3.getId(), booking2.getId(), booking1.getId(), booking10.getId()), bookingDtoList.stream()
                 .map(BookingDto::getId).collect(Collectors.toList()));
 
-        bookingDtoList = bookingService.getBookingsByOwner( State.ALL.name(), ownerUser.getId(), 0, 7);
+        bookingDtoList = bookingService.getBookingsByOwner(State.ALL.name(), ownerUser.getId(), 0, 7);
         assertEquals(7, bookingDtoList.size());
         assertEquals(List.of(booking9.getId(), booking8.getId(), booking7.getId(), booking6.getId(), booking5.getId(), booking4.getId(), booking3.getId()),
                 bookingDtoList.stream().map(BookingDto::getId).collect(Collectors.toList()));
 
-        bookingDtoList = bookingService.getBookingsByOwner( State.ALL.name(), ownerUser.getId(), 7, 7);
+        bookingDtoList = bookingService.getBookingsByOwner(State.ALL.name(), ownerUser.getId(), 7, 7);
         assertEquals(3, bookingDtoList.size());
         assertEquals(List.of(booking2.getId(), booking1.getId(), booking10.getId()),
                 bookingDtoList.stream().map(BookingDto::getId).collect(Collectors.toList()));

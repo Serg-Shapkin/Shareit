@@ -29,7 +29,6 @@ public class ItemServiceTest {
 
     private final ItemService itemService;
     private final UserService userService;
-    private final BookingService bookingService;
 
     private final UserDto userDto = UserDto
             .builder()
@@ -86,6 +85,19 @@ public class ItemServiceTest {
         ItemDto returnItemDto = itemService.getById(newItemDto.getId(), newUserDto.getId());
 
         assertThat(returnItemDto.getDescription(), equalTo(itemDto.getDescription()));
+    }
+
+    @Test
+    @DisplayName("Get all items")
+    void testGetAllItems() {
+        UserDto newUserDto = userService.create(userDto);
+        assertEquals(0, itemService.getAll(newUserDto.getId(), 0, 10).size());
+
+        ItemDto newItemDto = itemService.create(newUserDto.getId(), itemDto);
+        ItemDto newItemDto2 = itemService.create(newUserDto.getId(), itemDto1);
+
+        List<ItemDto> itemDtoList = itemService.getAll(newUserDto.getId(), 0, 10);
+        assertEquals(2, itemDtoList.size());
     }
 
     @Test

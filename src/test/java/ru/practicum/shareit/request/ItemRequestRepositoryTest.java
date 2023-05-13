@@ -81,7 +81,7 @@ public class ItemRequestRepositoryTest {
         itemRequestRepository.save(itemRequest);
 
         Page<ItemRequest> itemRequestPage = itemRequestRepository.findAllByRequestorIdNot(
-                2l, PageRequest.of(0, 10));
+                2L, PageRequest.of(0, 10));
 
         List<ItemRequest> itemRequestList = itemRequestPage.getContent();
 

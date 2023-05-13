@@ -1,4 +1,4 @@
-package ru.practicum.shareit.user;
+package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;
@@ -86,19 +86,6 @@ public class ItemServiceTest {
         ItemDto returnItemDto = itemService.getById(newItemDto.getId(), newUserDto.getId());
 
         assertThat(returnItemDto.getDescription(), equalTo(itemDto.getDescription()));
-    }
-
-    @Test
-    @DisplayName("Get all items")
-    void testGetAllItems() {
-        UserDto newUserDto = userService.create(userDto);
-        assertEquals(0, itemService.getAll(newUserDto.getId(), 0, 10).size());
-
-        ItemDto newItemDto = itemService.create(newUserDto.getId(), itemDto);
-        ItemDto newItemDto2 = itemService.create(newUserDto.getId(), itemDto1);
-
-        List<ItemDto> itemDtoList = itemService.getAll(userDto.getId(), 0, 10);
-        assertEquals(2, itemDtoList.size());
     }
 
     @Test

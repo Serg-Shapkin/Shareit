@@ -57,12 +57,11 @@ public class BookingTest {
     @Test
     @DisplayName("Booking set start and end date time")
     void testBookingSetStartAndEndDateTime() {
-        LocalDateTime dateTime = LocalDateTime.now();
-        booking.setStart(LocalDateTime.now());
-        booking.setEnd(LocalDateTime.now());
+        booking.setStart(LocalDateTime.of(2025, 1, 1, 12, 0));
+        booking.setEnd(LocalDateTime.of(2025, 1, 1, 13, 0));
 
-        assertEquals(dateTime, booking.getStart());
-        assertEquals(dateTime, booking.getEnd());
+        assertEquals("2025-01-01T12:00", booking.getStart().toString());
+        assertEquals("2025-01-01T13:00", booking.getEnd().toString());
     }
 
     @Test

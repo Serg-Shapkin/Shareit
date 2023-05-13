@@ -11,10 +11,10 @@ import ru.practicum.shareit.request.ItemRequest;
 import ru.practicum.shareit.request.ItemRequestRepository;
 import ru.practicum.shareit.request.RequestMapper;
 import ru.practicum.shareit.request.dto.ItemRequestDto;
-import ru.practicum.shareit.exception.RequestNotFoundException;
+import ru.practicum.shareit.exception.request.RequestNotFoundException;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
-import ru.practicum.shareit.exception.UserNotFoundException;
+import ru.practicum.shareit.exception.user.UserNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.List;

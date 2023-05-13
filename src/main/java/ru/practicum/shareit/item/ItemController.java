@@ -5,12 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.exception.ItemNotAvailableException;
-import ru.practicum.shareit.exception.ItemNotDescriptionException;
-import ru.practicum.shareit.exception.ItemNotNameException;
+import ru.practicum.shareit.exception.item.ItemNotAvailableException;
+import ru.practicum.shareit.exception.item.ItemNotDescriptionException;
+import ru.practicum.shareit.exception.item.ItemNotNameException;
 import ru.practicum.shareit.item.service.ItemService;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,9 +43,13 @@ public class ItemController {
     }
 
     @GetMapping
-    public List<ItemDto> getAll(@RequestHeader(HEADER) Long ownerId) {
+    public List<ItemDto> getAll(@RequestHeader(HEADER) Long ownerId,
+                                @PositiveOrZero
+                                @RequestParam(name = "from", defaultValue = "0") Integer from,
+                                @Positive
+                                @RequestParam(name = "size", defaultValue = "10", required = false) Integer size) {
         log.info("Получен запрос к эндпоинту:{} {}", "/items", "GET");
-        return itemService.getAll(ownerId);
+        return itemService.getAll(ownerId, from, size);
     }
 
     @GetMapping(value = "/{itemId}")
@@ -62,13 +68,16 @@ public class ItemController {
     }
 
     @GetMapping(value = "/search")
-    public List<ItemDto> getItemsBySearch(@RequestParam String text) {
+    public List<ItemDto> getItemsBySearch(@RequestParam(value = "text", defaultValue = "") String text,
+                                          @PositiveOrZero
+                                          @RequestParam(name = "from", defaultValue = "0") Integer from,
+                                          @Positive
+                                          @RequestParam(name = "size", defaultValue = "10", required = false) Integer size) {
         log.info("Получен запрос к эндпоинту:{} /items/search?text={}", "GET", text);
         if (text.isEmpty()) {
             log.info("Передан пустой запрос");
-            return new ArrayList<>();
         }
-        return itemService.getItemsBySearch(text);
+        return itemService.getItemsBySearch(text, from, size);
     }
 
     @PostMapping(value = "/{itemId}/comment")

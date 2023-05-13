@@ -2,14 +2,15 @@ package ru.practicum.shareit.item.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.Booking;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.enums.Status;
-import ru.practicum.shareit.exception.CommentCreateException;
-import ru.practicum.shareit.exception.ItemNotFoundException;
+import ru.practicum.shareit.exception.comment.CommentCreateException;
+import ru.practicum.shareit.exception.item.ItemNotFoundException;
 import ru.practicum.shareit.item.*;
 import ru.practicum.shareit.item.comment.Comment;
 import ru.practicum.shareit.item.comment.CommentMapper;
@@ -18,7 +19,7 @@ import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
-import ru.practicum.shareit.exception.UserNotFoundException;
+import ru.practicum.shareit.exception.user.UserNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -45,8 +46,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getAll(Long ownerId) {
-        List<ItemDto> items = itemRepository.findByOwnerId(ownerId)
+    public List<ItemDto> getAll(Long ownerId, Integer from, Integer size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+        PageRequest pageRequest = PageRequest.of(from / size, size, sort);
+
+        List<ItemDto> items = itemRepository.findByOwnerId(ownerId, pageRequest)
                 .stream()
                 .map(ItemMapper::toItemDto)
                 .sorted(Comparator.comparing(ItemDto::getId))
@@ -118,11 +122,14 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getItemsBySearch(String text) {
+    public List<ItemDto> getItemsBySearch(String text, Integer from, Integer size) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        PageRequest pageRequest = PageRequest.of(from / size, size, sort);
+
         if ((text != null) && (!text.isEmpty()) && (!text.isBlank())) {
             text = text.toLowerCase();
             log.info("Поиск вещи по слову: \"{}\"", text);
-            return itemRepository.getItemsBySearch(text)
+            return itemRepository.getItemsBySearch(text, pageRequest)
                     .stream()
                     .map(ItemMapper::toItemDto)
                     .collect(Collectors.toList());

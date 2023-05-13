@@ -7,6 +7,17 @@ import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.practicum.shareit.exception.booking.BookingCreateException;
+import ru.practicum.shareit.exception.booking.BookingNotFoundException;
+import ru.practicum.shareit.exception.booking.InvalidBookingException;
+import ru.practicum.shareit.exception.comment.CommentCreateException;
+import ru.practicum.shareit.exception.item.ItemNotAvailableException;
+import ru.practicum.shareit.exception.item.ItemNotDescriptionException;
+import ru.practicum.shareit.exception.item.ItemNotFoundException;
+import ru.practicum.shareit.exception.item.ItemNotNameException;
+import ru.practicum.shareit.exception.request.RequestNotFoundException;
+import ru.practicum.shareit.exception.user.UserCreateException;
+import ru.practicum.shareit.exception.user.UserNotFoundException;
 
 @RestControllerAdvice("ru.practicum.shareit")
 @Slf4j
@@ -85,6 +96,7 @@ public class ErrorHandler {
         return new ErrorResponse("Отсутствует идентификатор пользователя X-Sharer-User-Id", e.getMessage());
     }
 
+    // Comment
     @ExceptionHandler({CommentCreateException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
     public ErrorResponse handleCommentCreateException(final CommentCreateException e) {

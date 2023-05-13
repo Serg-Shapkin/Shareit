@@ -1,4 +1,4 @@
-package ru.practicum.shareit.exception;
+package ru.practicum.shareit.exception.booking;
 
 public class UnsupportedStatusException extends IllegalArgumentException {
     public UnsupportedStatusException(String state) {

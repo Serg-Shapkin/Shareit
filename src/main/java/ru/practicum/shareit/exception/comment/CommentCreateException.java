@@ -1,4 +1,4 @@
-package ru.practicum.shareit.exception;
+package ru.practicum.shareit.exception.comment;
 
 public class CommentCreateException extends RuntimeException {
     public CommentCreateException(String message) {

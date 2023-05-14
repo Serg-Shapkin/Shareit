@@ -13,21 +13,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BookingTest {
 
-    User owner = User
+    private final User owner = User
             .builder()
             .id(1L)
             .name("OwnerName")
             .email("owner@email.com")
             .build();
 
-    User booker = User
+    private final User booker = User
             .builder()
             .id(2L)
             .name("BookerName")
             .email("booker@email.com")
             .build();
 
-    Item item = Item
+    private final Item item = Item
             .builder()
             .id(1L)
             .name("ItemName")
@@ -36,7 +36,7 @@ public class BookingTest {
             .available(true)
             .build();
 
-    Booking booking = Booking
+    private final Booking booking = Booking
             .builder()
             .id(1L)
             .start(LocalDateTime.now())
@@ -45,7 +45,7 @@ public class BookingTest {
             .booker(booker)
             .build();
 
-    Booking booking2 = Booking
+    private final Booking booking2 = Booking
             .builder()
             .id(1L)
             .start(LocalDateTime.now())

@@ -91,5 +91,8 @@ public class CommentRepositoryTest {
 
         assertEquals(1, commentList.size());
         assertEquals("Add comment from user1", commentList.get(0).getText());
+        assertEquals(user, commentList.get(0).getAuthor());
+        assertEquals(item, commentList.get(0).getItem());
+        assertEquals(dateTime, commentList.get(0).getCreated());
     }
 }

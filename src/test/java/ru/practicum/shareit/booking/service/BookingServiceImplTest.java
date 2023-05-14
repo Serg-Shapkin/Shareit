@@ -8,8 +8,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.BookingRepository;
-import ru.practicum.shareit.booking.service.BookingService;
-import ru.practicum.shareit.booking.service.BookingServiceImpl;
 import ru.practicum.shareit.exception.booking.BookingNotFoundException;
 import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.user.User;
@@ -25,11 +23,12 @@ import static org.mockito.Mockito.when;
 @Transactional
 @ExtendWith(MockitoExtension.class)
 public class BookingServiceImplTest {
-    @Mock
-    BookingRepository mockBookingRepository;
 
     @Mock
-    UserRepository mockUserRepository;
+    BookingRepository bookingRepository;
+
+    @Mock
+    UserRepository userRepository;
 
     @Mock
     ItemRepository itemRepository;
@@ -44,13 +43,13 @@ public class BookingServiceImplTest {
                 .email("email@example.com")
                 .build();
 
-        BookingService bookingService = new BookingServiceImpl(mockBookingRepository,
-                mockUserRepository, itemRepository);
+        BookingService bookingService = new BookingServiceImpl(bookingRepository,
+                userRepository, itemRepository);
 
-        when(mockUserRepository.findById(anyLong()))
+        when(userRepository.findById(anyLong()))
                 .thenReturn(Optional.of(user));
 
-        when(mockBookingRepository.findById(anyLong()))
+        when(bookingRepository.findById(anyLong()))
                 .thenReturn(Optional.empty());
 
         assertThrows(BookingNotFoundException.class, () -> bookingService.getById(-1L, 1L));

@@ -1,4 +1,4 @@
-package ru.practicum.shareit.request;
+package ru.practicum.shareit.request.service;
 
 
 import lombok.RequiredArgsConstructor;
@@ -105,4 +105,15 @@ public class ItemRequestServiceTest {
         System.out.println(listItemRequest.toString());
         assertThat(listItemRequest.size(), equalTo(2));
     }
+
+/*    @Test
+    @DisplayName("Get by id")
+    void testGetRequestById() {
+        UserDto firstUserDto = userService.create(userDto1);
+        ItemRequestDto newItemRequestDto = itemRequestService.create(itemRequestDto, firstUserDto.getId(),
+                LocalDateTime.of(2025, 1, 1, 12, 0));
+        ItemRequestDto returnItemRequestDto = itemRequestService.getById(newItemRequestDto.getId(),
+                firstUserDto.getId());
+        assertThat(returnItemRequestDto.getDescription(), equalTo(itemRequestDto.getDescription()));
+    }*/
 }

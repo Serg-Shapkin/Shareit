@@ -13,6 +13,7 @@ import ru.practicum.shareit.user.dto.UserDto;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,6 +52,16 @@ public class BookingDtoTest {
             .build();
 
     private final BookingDto bookingDto = BookingDto
+            .builder()
+            .id(1L)
+            .start(LocalDateTime.of(2025, 01, 01, 12, 00))
+            .end(LocalDateTime.of(2025, 01, 01, 13, 00))
+            .item(itemDto)
+            .booker(userBookerDto)
+            .status(Status.WAITING)
+            .build();
+
+    private final BookingDto bookingDto2 = BookingDto
             .builder()
             .id(1L)
             .start(LocalDateTime.of(2025, 01, 01, 12, 00))
@@ -100,4 +111,19 @@ public class BookingDtoTest {
         bookingDto.setStart(start);
         bookingDto.setEnd(end);
     }
+
+    @Test
+    @DisplayName("BookingDTO equals test")
+    void testBookingDtoEquals() {
+        assertEquals(bookingDto, bookingDto);
+        assertNotEquals(null, bookingDto);
+        assertEquals(bookingDto, bookingDto2);
+    }
+
+    @Test
+    @DisplayName("BookingDTO hash code test")
+    void testBookingDtoHashCode() {
+        assertEquals(Objects.hash(bookingDto.getId()), bookingDto.hashCode());
+    }
 }
+

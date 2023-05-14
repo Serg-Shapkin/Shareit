@@ -19,7 +19,6 @@ import ru.practicum.shareit.exception.item.ItemNotFoundException;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.exception.user.UserNotFoundException;
-import ru.practicum.shareit.exception.booking.UnsupportedStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -145,7 +144,7 @@ public class BookingServiceImpl implements BookingService {
                 break;
             default:
                 log.warn("Передан некорректный параметр: {}", state);
-                throw new UnsupportedStatusException(state);
+                throw new IllegalArgumentException("Unknown state: " + state);
         }
         log.info("Запрошен список всех бронирований текущего пользователя");
         return bookings
@@ -197,7 +196,7 @@ public class BookingServiceImpl implements BookingService {
                 break;
             default:
                 log.warn("Передан некорректный параметр: {}", state);
-                throw new UnsupportedStatusException(state);
+                throw new IllegalArgumentException("Unknown state: " + state);
         }
         log.info("Запрошен список бронирований для всех вещей текущего пользователя");
         return bookings

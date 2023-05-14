@@ -160,14 +160,6 @@ public class ItemServiceImpl implements ItemService {
         return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
     }
 
-    @Override
-    public List<CommentDto> getCommentsByItemId(Long itemId) {
-        return commentRepository.findAllByItem_Id(itemId, Sort.by(Sort.Direction.DESC, "created"))
-                .stream()
-                .map(CommentMapper::toCommentDto)
-                .collect(Collectors.toList());
-    }
-
     private Item getItem(Long itemId) {
         return itemRepository.findById(itemId).orElseThrow(() -> new ItemNotFoundException(itemId));
     }

@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 @Builder
 @AllArgsConstructor
@@ -35,4 +36,17 @@ public class ItemDto {
 
     private BookingShortDto lastBooking;
     private BookingShortDto nextBooking;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemDto itemDto = (ItemDto) o;
+        return Objects.equals(id, itemDto.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

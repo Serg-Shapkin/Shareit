@@ -150,6 +150,21 @@ public class ItemServiceTest {
     }
 
     @Test
+    @DisplayName("Delete by id")
+    void testDeleteById() {
+        UserDto newUserDto = userService.create(userDto1);
+
+        ItemDto newItemDto = itemService.create(newUserDto.getId(), itemDto);
+        ItemDto newItemDto1 = itemService.create(newUserDto.getId(), itemDto1);
+
+        assertEquals(2, itemService.getAll(newUserDto.getId(), 0, 10).size());
+
+        itemService.deleteById(newItemDto.getId(), newUserDto.getId());
+
+        assertEquals(1, itemService.getAll(newUserDto.getId(), 0, 10).size());
+    }
+
+    @Test
     @DisplayName("Delete when user is owner")
     void testDeleteWhenUserIsOwner() {
         UserDto ownerDto = userService.create(userDto1);

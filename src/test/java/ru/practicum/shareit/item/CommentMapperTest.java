@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.comment;
+package ru.practicum.shareit.item;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

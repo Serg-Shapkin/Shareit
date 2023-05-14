@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.comment;
+package ru.practicum.shareit.item;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,6 +8,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.item.ItemRepository;
+import ru.practicum.shareit.item.comment.Comment;
+import ru.practicum.shareit.item.comment.CommentRepository;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 

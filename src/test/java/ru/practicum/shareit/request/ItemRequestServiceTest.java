@@ -80,7 +80,7 @@ public class ItemRequestServiceTest {
 
     @Test
     @DisplayName("Return all item request when size not null and null")
-    void TestReturnAllItemRequestsWhenSizeNotNullAndNull() {
+    void testReturnAllItemRequestsWhenSizeNotNullAndNull() {
         UserDto firstUserDto = userService.create(userDto1);
         UserDto newUserDto = userService.create(userDto2);
         itemRequestService.create(itemRequestDto, newUserDto.getId(),

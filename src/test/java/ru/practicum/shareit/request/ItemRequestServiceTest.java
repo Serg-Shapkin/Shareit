@@ -64,7 +64,7 @@ public class ItemRequestServiceTest {
 
     @Test
     @DisplayName("Exception when create item request with wrong user id")
-    void shouldExceptionWhenCreateItemRequestWithWrongUserId() {
+    void testExceptionWhenCreateItemRequestWithWrongUserId() {
         assertThrows(UserNotFoundException.class,
                 () -> itemRequestService.create(itemRequestDto, -2L,
                         LocalDateTime.of(2025, 1, 1, 12, 0)));

@@ -2,8 +2,10 @@ package ru.practicum.shareit.exception;
 
 public class ErrorResponse {
     private final String error;
+    private final String description;
 
-    public ErrorResponse(String message) {
-        this.error = message;
+    public ErrorResponse(String error, String description) {
+        this.error = error;
+        this.description = description;
     }
 }

@@ -1,26 +1,18 @@
 package ru.practicum.shareit.item.dto;
 
 import lombok.*;
+import ru.practicum.shareit.validation.Create;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
 public class CommentDto {
-
     private Long id;
-
-    @NotBlank(message = "Текст комментария отсутствует или передана пустая строка")
+    @NotBlank(groups = {Create.class})
     private String text;
-
-    private Long itemId;
-
+    private ItemDto item;
     private String authorName;
-
-    private LocalDateTime created;
 }

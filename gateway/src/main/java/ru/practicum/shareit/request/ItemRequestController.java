@@ -24,37 +24,32 @@ public class ItemRequestController {
     private static final String HEADER = "X-Sharer-User-Id";
 
     @PostMapping
-    public ResponseEntity<Object> createRequest(@Valid @RequestBody ItemRequestDto itemRequestDto,
-                                                @RequestHeader(HEADER) long userId) {
-        log.info("Creating request {}, userId={}", itemRequestDto, userId);
-        return requestClient.createRequest(itemRequestDto, userId);
+    public ResponseEntity<Object> create(@RequestHeader(HEADER) Long userId,
+                                         @Valid @RequestBody ItemRequestDto itemRequestDto) {
+        log.info("Post userId={}, itemRequestDto={}", userId, itemRequestDto);
+        return requestClient.addRequest(userId, itemRequestDto);
+    }
+
+    @GetMapping("{requestId}")
+    public ResponseEntity<Object> getRequestById(@RequestHeader(HEADER) Long userId,
+                                                 @PathVariable Long requestId) {
+        log.info("Get /requestId userdId={}, requestId={}", userId, requestId);
+        return requestClient.getById(userId, requestId);
     }
 
     @GetMapping
-    public ResponseEntity<Object> getAllUserRequest(@RequestHeader(HEADER) long userId) {
-        log.info("Get all user requests, userId={}", userId);
-        return requestClient.getAllUserRequests(userId);
+    public ResponseEntity<Object> getAllUserRequest(
+            @RequestHeader(HEADER) Long userId) {
+        log.info("Get allUserRequest userId={}", userId);
+        return requestClient.getAllUserRequest(userId);
     }
 
-    @GetMapping(value = "/all")
-    public ResponseEntity<Object> getAll(@PositiveOrZero
-                                           @RequestParam(
-                                               name = "from",
-                                               defaultValue = "0") int from,
-                                       @Positive
-                                            @RequestParam(
-                                               name = "size",
-                                               required = false,
-                                               defaultValue = "10") int size,
-                                       @RequestHeader(HEADER) Long userId) {
-        log.info("Get all requests userId={}, from={} size={}", userId, from, size);
-        return requestClient.getAllRequests(userId, from, size);
-    }
-
-    @GetMapping(value = "/{requestId}")
-    public ResponseEntity<Object> getById(@PathVariable(value = "requestId") long requestId,
-                                          @RequestHeader(HEADER) long userId) {
-        log.info("Get request by requestId={}, userId={}", requestId, userId);
-        return requestClient.getRequestById(requestId, userId);
+    @GetMapping("/all")
+    public ResponseEntity<Object> getAllRequests(
+            @RequestHeader(HEADER) Long userId,
+            @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+            @Positive @RequestParam(defaultValue = "10") Integer size) {
+        log.info("Get /all userId={}, from={}, size={}", userId, from, size);
+        return requestClient.getAllRequest(userId, from, size);
     }
 }

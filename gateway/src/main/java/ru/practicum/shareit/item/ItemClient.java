@@ -15,7 +15,6 @@ import java.util.Map;
 
 @Service
 public class ItemClient extends BaseClient {
-
     private static final String API_PREFIX = "/items";
 
     @Autowired
@@ -28,37 +27,37 @@ public class ItemClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> createItem(long ownerId, ItemDto itemDto) {
-        return post("", ownerId, itemDto);
+
+    public ResponseEntity<Object> postItem(ItemDto itemDto, Long userId) {
+        return post("", userId, itemDto);
     }
 
-    public ResponseEntity<Object> getAllItemsByOwner(long ownerId, int from, int size) {
+    public ResponseEntity<Object> patchItem(ItemDto itemDto, long itemId, Long userId) {
+        return patch("/" + itemId, userId, itemDto);
+    }
+
+    public ResponseEntity<Object> getItemById(Long itemId, Long userId) {
+        return get("/" + itemId, userId);
+    }
+
+    public ResponseEntity<Object> getAllUsersItems(Long userId, Integer from, Integer size) {
         Map<String, Object> parameters = Map.of(
                 "from", from,
-                "size", size);
-        return get("?from={from}&size={size}", ownerId, parameters);
+                "size", size
+        );
+        return get("?from={from}&size={size}", userId, parameters);
     }
 
-    public ResponseEntity<Object> getItemById(long itemId, long userId) {
-        String path = "/" + itemId;
-        return get(path, userId);
-    }
-
-    public ResponseEntity<Object> updateItem(ItemDto itemDto, long itemId, long ownerId) {
-        String path = "/" + itemId;
-        return patch(path, ownerId, itemDto);
-    }
-
-    public ResponseEntity<Object> getItemsBySearch(String text, Integer from, Integer size) {
+    public ResponseEntity<Object> getItems(long userId, String text, Integer from, Integer size) {
         Map<String, Object> parameters = Map.of(
                 "text", text,
                 "from", from,
-                "size", size);
-        return get("/search?text={text}&from={from}&size={size}", null, parameters);
+                "size", size
+        );
+        return get("/search?text={text}&from={from}&size={size}", userId, parameters);
     }
 
-    public ResponseEntity<Object> addComment(CommentDto commentDto, Long itemId, Long userId) {
-        String path = "/" + itemId + "/comment";
-        return post(path, userId, commentDto);
+    public ResponseEntity<Object> addComment(Long itemId, Long userId, CommentDto commentDto) {
+        return post("/" + itemId + "/comment", userId, commentDto);
     }
 }

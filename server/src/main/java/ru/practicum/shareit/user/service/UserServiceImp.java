@@ -73,8 +73,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void deleteById(Long id) {
-        userRepository.deleteById(id);
-        log.info("Пользователь с id: {} удален", id);
+        if (id != null) {
+            User user = getUser(id);
+            userRepository.deleteById(user.getId());
+            log.info("Пользователь с id: {} удален", user.getId());
+        }
     }
 
     private User getUser(Long userId) {

@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
-import ru.practicum.shareit.item.Item;
-import ru.practicum.shareit.item.ItemRepository;
 import ru.practicum.shareit.item.comment.Comment;
 import ru.practicum.shareit.item.comment.CommentRepository;
 import ru.practicum.shareit.user.User;
@@ -35,12 +33,7 @@ public class CommentRepositoryTest {
 
     private final Item item = new Item();
 
-    private final User user = User
-            .builder()
-            .id(1L)
-            .name("user")
-            .email("user@mail.ru")
-            .build();
+    private final User user = User.builder().id(1L).name("user").email("user@mail.ru").build();
 
     private final LocalDateTime dateTime = LocalDateTime.now();
 
@@ -98,3 +91,4 @@ public class CommentRepositoryTest {
         assertEquals(dateTime, commentList.get(0).getCreated());
     }
 }
+

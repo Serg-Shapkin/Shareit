@@ -1,54 +1,25 @@
 package ru.practicum.shareit.item.dto;
 
 import lombok.*;
-import ru.practicum.shareit.booking.dto.BookingShortDto;
+import ru.practicum.shareit.validation.Create;
+import ru.practicum.shareit.validation.Update;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Objects;
 
-@Builder
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@ToString
 public class ItemDto {
     private Long id;
-
-    @NotBlank(message = "Название вещи отсутствует или передана пустая строка")
+    @NotBlank(groups = {Create.class})
+    @Size(groups = {Create.class, Update.class}, min = 1)
     private String name;
-
-    @NotEmpty(message = "Описание вещи отсутствует")
-    @Size(max = 200)
+    @NotBlank(groups = {Create.class})
+    @Size(groups = {Create.class, Update.class}, min = 1)
     private String description;
-
-    @NotNull(message = "Статус доступности вещи отсутствует")
+    @NotNull(groups = {Create.class})
     private Boolean available;
-
-    @NotNull(message = "Владелец вещи отсутствует")
-    private Long ownerId;
-
     private Long requestId;
-
-    private List<CommentDto> comments;
-
-    private BookingShortDto lastBooking;
-    private BookingShortDto nextBooking;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ItemDto itemDto = (ItemDto) o;
-        return Objects.equals(id, itemDto.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

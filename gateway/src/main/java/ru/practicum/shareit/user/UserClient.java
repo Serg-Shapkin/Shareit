@@ -1,5 +1,6 @@
 package ru.practicum.shareit.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import ru.practicum.shareit.user.dto.UserDto;
 public class UserClient extends BaseClient {
     private static final String API_PREFIX = "/users";
 
+    @Autowired
     public UserClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
@@ -22,26 +24,23 @@ public class UserClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> createUser(UserDto userDto) {
+    public ResponseEntity<Object> postUser(UserDto userDto) {
         return post("", userDto);
+    }
+
+    public ResponseEntity<Object> getUser(long userId) {
+        return get("/" + userId);
     }
 
     public ResponseEntity<Object> getAllUsers() {
         return get("");
     }
 
-    public ResponseEntity<Object> getUserById(long userId) {
-        String path = "/" + userId;
-        return get(path);
+    public ResponseEntity<Object> delete(long userId) {
+        return delete("/" + userId);
     }
 
-    public ResponseEntity<Object> updateUser(long userId, UserDto userDto) {
-        String path = "/" + userId;
-        return patch(path, userDto);
-    }
-
-    public ResponseEntity<Object> deleteUserById(long userId) {
-        String path = "/" + userId;
-        return delete(path);
+    public ResponseEntity<Object> patchUser(UserDto userDto, long userId) {
+        return patch("/" + userId, userDto);
     }
 }

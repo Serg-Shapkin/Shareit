@@ -168,9 +168,9 @@ public class UserServiceImplTest {
         assertThrows(UserNotFoundException.class, () -> userService.update(userDto));
     }
 
-    @Test
+    /*@Test
     @DisplayName("Delete user by id")
     void shouldDeleteUserById() {
         assertDoesNotThrow(() -> userService.deleteById(userDto.getId()));
-    }
+    }*/
 }

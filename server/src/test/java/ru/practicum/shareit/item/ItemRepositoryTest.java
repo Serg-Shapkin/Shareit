@@ -92,4 +92,3 @@ public class ItemRepositoryTest {
         assertEquals(item.getOwnerId(), items.get(0).getOwnerId());
     }
 }
-

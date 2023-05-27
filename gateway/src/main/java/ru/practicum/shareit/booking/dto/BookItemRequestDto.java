@@ -1,27 +1,33 @@
 package ru.practicum.shareit.booking.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.Future;
+import javax.validation.GroupSequence;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.practicum.shareit.validation.DefaultValidation;
+import ru.practicum.shareit.validation.TimeComparing;
+import ru.practicum.shareit.validation.ValidEndDate;
+import ru.practicum.shareit.validation.ValidStartDate;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookItemRequestDto {
-	@NotNull(message = "Отсутствует itemId")
+@GroupSequence({BookItemRequestDto.class, DefaultValidation.class, TimeComparing.class})
+@ValidStartDate(groups = {TimeComparing.class})
+@ValidEndDate(groups = {TimeComparing.class})
+public class BookItemRequestDto implements Serializable {
+	@NotNull(groups = {DefaultValidation.class})
 	private long itemId;
-
-	@NotNull(message = "Отсутствует дата и время начала бронирования")
-	@FutureOrPresent(message = "Значение даты должно быть в будущем (включая настоящее)")
+	@NotNull(groups = {DefaultValidation.class})
+	@FutureOrPresent(groups = {DefaultValidation.class})
 	private LocalDateTime start;
-
-	@NotNull(message = "Отсутствует дата и время начала бронирования")
-	@Future(message = "Значение даты должно быть в будущем")
+	@NotNull(groups = {DefaultValidation.class})
+	@FutureOrPresent(groups = {DefaultValidation.class})
 	private LocalDateTime end;
 }

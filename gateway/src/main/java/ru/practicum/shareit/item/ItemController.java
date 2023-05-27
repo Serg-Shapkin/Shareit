@@ -8,8 +8,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.validation.Create;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -25,55 +25,48 @@ public class ItemController {
     private static final String HEADER = "X-Sharer-User-Id";
 
     @PostMapping
-    public ResponseEntity<Object> create(@RequestHeader(HEADER) long ownerId,
-                                         @Valid @RequestBody ItemDto itemDto) {
-        log.info("Creating item ownerId={}, itemDto={}", ownerId, itemDto);
-        return itemClient.createItem(ownerId, itemDto);
-    }
-
-    @GetMapping
-    public ResponseEntity<Object> getAll(@RequestHeader(HEADER) long ownerId,
-                                         @PositiveOrZero
-                                         @RequestParam(name = "from", defaultValue = "0") int from,
-                                         @Positive
-                                             @RequestParam(name = "size", defaultValue = "10", required = false) int size) {
-        log.info("Get all items by ownerId={}, from={}, size={}", ownerId, from, size);
-        return itemClient.getAllItemsByOwner(ownerId, from, size);
-    }
-
-    @GetMapping(value = "/{itemId}")
-    public ResponseEntity<Object> getById(@PathVariable(value = "itemId") long itemId,
+    public ResponseEntity<Object> addItem(@Validated({Create.class}) @RequestBody ItemDto itemDto,
                                           @RequestHeader(HEADER) Long userId) {
-        log.info("Get item by id, itemId={}, userId={}", itemId, userId);
+        log.info("post item userId={}, itemDto={}", userId, itemDto);
+        return itemClient.postItem(itemDto, userId);
+    }
+
+    @PatchMapping("/{itemId}")
+    public ResponseEntity<Object> updateItem(@RequestBody ItemDto itemDto,
+                                             @RequestHeader(HEADER) Long userId,
+                                             @PathVariable long itemId) {
+        log.info("patch item userId={}, itemId= {}, itemDto={}", userId, itemId, itemDto);
+        return itemClient.patchItem(itemDto, itemId, userId);
+    }
+
+    @GetMapping("/{itemId}")
+    public ResponseEntity<Object> getItemById(@PathVariable Long itemId,
+                                              @RequestHeader(HEADER) Long userId) {
+        log.info("Get itemId={}, userId={}", itemId, userId);
         return itemClient.getItemById(itemId, userId);
     }
 
-    @PatchMapping(value = "/{itemId}")
-    public ResponseEntity<Object> update(@RequestHeader(HEADER) long ownerId,
-                                         @PathVariable(value = "itemId") long itemId,
-                                         @RequestBody ItemDto itemDto) {
-        log.info("Update item {}, itemId={}, ownerId={}", itemDto, itemId, ownerId);
-        return itemClient.updateItem(itemDto, itemId, ownerId);
+    @GetMapping
+    public ResponseEntity<Object> getAllUsersItems(@RequestHeader(HEADER) Long userId,
+                                                   @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+                                                   @Positive @RequestParam(defaultValue = "10") Integer size) {
+        log.info("Get allUserItem userId={}, from={}, size={}", userId, from, size);
+        return itemClient.getAllUsersItems(userId, from, size);
     }
 
-    @GetMapping(value = "/search")
-    public ResponseEntity<Object> getItemsBySearch(@RequestParam(value = "text", defaultValue = "") String text,
-                                                   @PositiveOrZero
-                                                   @RequestParam(name = "from", defaultValue = "0") int from,
-                                                   @Positive
-                                                       @RequestParam(name = "size", defaultValue = "10", required = false) int size) {
-        log.info("Get items bi search, text={}, from={}, size={}", text, from, size);
-        if (text.isEmpty()) {
-            log.info("An empty request was passed");
-        }
-        return itemClient.getItemsBySearch(text, from, size);
+    @GetMapping("/search")
+    public ResponseEntity<Object> getItems(@RequestHeader(HEADER) long userId,
+                                           @RequestParam String text, @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
+                                           @Positive @RequestParam(defaultValue = "10") Integer size) {
+        log.info("Get /search text={}, from={}, size={}", text, from, size);
+        return itemClient.getItems(userId, text, from, size);
     }
 
-    @PostMapping(value = "/{itemId}/comment")
-    public ResponseEntity<Object> addComment(@PathVariable(value = "itemId") Long itemId,
-                                             @RequestHeader(HEADER) Long authorId,
-                                             @Valid @RequestBody CommentDto commentDto) {
-        log.info("Add comment {}, itemId={}, authorId={}", commentDto, itemId, authorId);
-        return itemClient.addComment(commentDto, itemId, authorId);
+    @PostMapping("/{itemId}/comment")
+    public ResponseEntity<Object> addComment(@PathVariable Long itemId,
+                                             @RequestHeader(HEADER) Long userId,
+                                             @Validated({Create.class}) @RequestBody CommentDto commentDto) {
+        log.info("Post comment userId={}, itemId={}, commentDto={}", userId, itemId, commentDto);
+        return itemClient.addComment(itemId, userId, commentDto);
     }
 }

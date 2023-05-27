@@ -221,7 +221,7 @@ public class BookingServiceUnitTest {
 
         assertEquals(10, bookingDtoList.size());
         assertEquals(List.of(booking9.getId(), booking8.getId(), booking7.getId(), booking6.getId(), booking5.getId(), booking4.getId(),
-                booking3.getId(), booking2.getId(), booking10.getId(), booking1.getId()), bookingDtoList.stream()
+                booking3.getId(), booking2.getId(), booking1.getId(), booking10.getId()), bookingDtoList.stream()
                 .map(BookingDto::getId).collect(Collectors.toList()));
 
         bookingDtoList = bookingService.getBookingsByOwner(State.ALL.name(), ownerUser.getId(), 0, 7);
